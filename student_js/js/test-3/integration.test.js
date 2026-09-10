@@ -51,11 +51,12 @@ async function simulateApiFailure() {
         await fetch(
             "http://localhost:9999/api/students"
         );
+	console.log(`❌ FAIL : 실패 Cors 설정 * 의 가능성 등 보안 오류 `);
 
         return false;
 
     } catch (error) {
-
+	console.log(`✅ PASS : 위 미설정 주소 요청 - 정상 실패 `);
         return true;
     }
 }

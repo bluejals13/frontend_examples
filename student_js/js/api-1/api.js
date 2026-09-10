@@ -16,20 +16,25 @@ async function getStudents() {
 
 // 학생 등록
 async function createStudent(studentData) {
-    const response = await fetch(API.STUDENTS, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(studentData)
-    });
+
+    const response = await fetch(
+        `${API_BASE_URL}/api/students`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(studentData)
+        }
+    );
 
     if (!response.ok) {
-        throw new Error("학생 등록 실패");
+        throw new Error("학생 등록에 실패했습니다.");
     }
 
     return await response.json();
 }
+
 
 
 // 학생 수정

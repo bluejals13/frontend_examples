@@ -19,17 +19,35 @@ function test(name, condition) {
 // 테스트 학생
 // ========================================
 
+// 중복 등록 방지를 위해 랜덤 학번 생성
+// ========================================
+// 테스트 학생
+// ========================================
+
+const randomNumber =
+    Math.floor(100 + Math.random() * 900);
+
 const apiTestStudent = {
+
     name: "API 테스트",
-    studentNumber: "ZZ999",
+
+    studentNumber:
+        `ZZ${randomNumber}`,
+
     detailRequest: {
+
         address: "서울",
-        phoneNumber: "010-9999-9999",
-        email: "api@test.com",
-        dateOfBirth: "2000-01-01"
+
+        phoneNumber:
+            `010-${randomNumber}-9999`,
+
+        email:
+            `api${randomNumber}@test.com`,
+
+        dateOfBirth:
+            "2000-01-01"
     }
 };
-
 
 
 // ========================================
@@ -46,7 +64,7 @@ async function testGetStudents() {
 
         test(
             "학생 목록 API 호출",
-            Array.isArray(apiTestStudent)
+            Array.isArray(students)
         );
 
 
@@ -79,18 +97,30 @@ async function testCreateStudent() {
                 apiTestStudent
             );
 
-
         test(
             "학생 등록 API",
-            result !== null
+            result !== null &&
+            result !== undefined
         );
-
 
         console.log(
             "등록 결과:",
             result
         );
 
+
+        // 테스트 데이터 삭제
+        if (result && result.id) {
+
+            await deleteStudent(
+                result.id
+            );
+
+            console.log(
+                "테스트 데이터 삭제 완료:",
+                result.id
+            );
+        }
 
     } catch (error) {
 
@@ -116,6 +146,28 @@ async function runApiTests() {
         "===== API TEST END ====="
     );
 }
+
+// ========================================
+//  테스트 db 용 예시 자료 삭제
+// ========================================
+async function deleteStudent(id) {
+
+    const response = await fetch(
+        `${API_BASE_URL}/api/students/${id}`,
+        {
+            method: "DELETE"
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `학생 삭제 실패: HTTP ${response.status}`
+        );
+    }
+
+    return true;
+}
+
 
 
 runApiTests();

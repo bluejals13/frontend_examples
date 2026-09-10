@@ -113,16 +113,15 @@ function renderStudents(students) {
 
     students.forEach(student => {
 
-        const tr =
-            document.createElement("tr");
+        const tr = document.createElement("tr");
 
         tr.innerHTML = `
             <td>${student.name}</td>
             <td>${student.studentNumber}</td>
-            <td>${student.detailRequest?.address ?? ""}</td>
-            <td>${student.detailRequest?.phoneNumber ?? ""}</td>
-            <td>${student.detailRequest?.email ?? ""}</td>
-            <td>${student.detailRequest?.dateOfBirth ?? ""}</td>
+            <td>${student.detail?.address ?? ""}</td>
+            <td>${student.detail?.phoneNumber ?? ""}</td>
+            <td>${student.detail?.email ?? ""}</td>
+            <td>${student.detail?.dateOfBirth ?? ""}</td>
         `;
 
         studentTableBody.appendChild(tr);
