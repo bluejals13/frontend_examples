@@ -202,3 +202,83 @@
           /* 컨테이너 내용이 경계를 넘어갈 때 숨김 */
           padding: 20px;
       }
+
+/* ================================
+   검색 영역
+================================ */
+
+.search-container {
+    margin: 30px auto;
+    padding: 20px;
+    max-width: 1000px;
+}
+
+.search-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-group select,
+.search-group input {
+    padding: 8px;
+}
+
+.search-group button {
+    padding: 8px 14px;
+    cursor: pointer;
+}
+
+
+/* ================================
+   액션 버튼
+================================ */
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.action-buttons button {
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    color: white;
+}
+
+
+/* 수정 */
+
+.edit-btn {
+    background-color: #3498db;
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+}
+
+
+/* 삭제 */
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+
+/* 취소 */
+
+.cancel-btn {
+    background-color: #777;
+    color: white;
+}
+
+.cancel-btn:hover {
+    background-color: #555;
+}
+

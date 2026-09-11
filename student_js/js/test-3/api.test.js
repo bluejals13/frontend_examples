@@ -153,7 +153,7 @@ async function runApiTests() {
 async function deleteStudent(id) {
 
     const response = await fetch(
-        `${API_BASE_URL}/api/students/${id}`,
+        `${API_BASE_URL}/${id}`,
         {
             method: "DELETE"
         }
