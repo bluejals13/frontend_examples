@@ -1,296 +1,265 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+/* ---------------------------------------------------------
+   style.css — book/css/form10.css 를 그대로 옮겨 왔습니다.
+   달라진 곳은 두 군데입니다.
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
+   (1) .form-row 대신 .form-grid 를 씁니다.
+       입력칸을 두 개씩 묶어 줄을 만들던 것을, 화면 너비에 맞춰
+       스스로 칸 수를 정하는 그리드로 바꿨습니다.
+   (2) 맨 아래에 ECMAScript 버전에서 새로 생긴 규칙을 더했습니다.
+       모드 배지, 빈 목록 안내, 수정 모드 강조입니다.
+   --------------------------------------------------------- */
 
 body {
-  margin: 0;
-}
-
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    /* 화면이 넓어도 1200px 를 넘지 않게 한다 */
+    margin: 0 auto;
+    /* 좌우 여백을 자동으로 나눠 가운데 정렬 */
+    padding: 20px;
+    background-color: #f5f5f5;
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
-}
-
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
-
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
-
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#app {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
+    color: #333;
     text-align: center;
-  }
+    margin-bottom: 30px;
 }
 
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+/* 제목 옆의 TEST / PROD 배지 */
+.app-mode {
+    font-size: 0.5em;
+    /* 제목보다 훨씬 작게 — em 은 부모 글자 크기의 배수다 */
+    vertical-align: middle;
+    /* 제목 글자의 가운데 높이에 맞춘다 */
+    padding: 3px 10px;
+    border-radius: 12px;
+    color: white;
+    letter-spacing: 1px;
 }
 
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
+/* 개발 모드 — 눈에 띄지 않는 회색 */
+.app-mode.test {
+    background-color: #757575;
+}
 
-  .logo {
-    height: 18px;
-  }
+/* 운영 모드 — 실수로 운영을 건드리지 않도록 빨간색 */
+.app-mode.prod {
+    background-color: #f44336;
+}
 
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
+h2 {
+    color: #444;
+    border-bottom: 2px solid #4CAF50;
+    /* 부제목 아래에 2픽셀 두께의 녹색 밑줄 추가 */
+    padding-bottom: 5px;
+}
+
+form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* 패딩과 테두리를 width 에 포함 */
+}
+
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+    /* 세로 방향으로만 크기를 바꿀 수 있게 한다 */
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /* 칸 사이의 테두리를 겹쳐 한 줄로 만든다 */
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+    /* 마우스를 올린 행의 배경색을 연한 회색으로 */
+}
+
+/* 폼을 감싸는 컨테이너 */
+.form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 입력칸들을 화면 너비에 맞춰 자동으로 배치한다.
+   form10.css 의 .form-row 를 대신하는 규칙이다. */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* 한 칸은 최소 250px, 남는 자리는 똑같이 나눠 갖는다.
+       화면이 좁아지면 칸 수가 저절로 줄어든다. */
+    gap: 15px;
+}
+
+.form-group {
     display: flex;
-    padding: 6px 12px;
+    flex-direction: column;
+    /* 라벨과 입력칸을 세로로 쌓는다 */
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* 표를 감싸는 컨테이너 */
+.table-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* 목록을 불러오는 동안 보여 주는 안내 */
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+/* 폼 아래에 뜨는 오류 · 성공 메시지.
+   처음에는 감춰 두고, message.js 가 보일 때만 display 를 바꾼다. */
+.error-message {
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: none;
+}
+
+.cancel-btn {
+    background-color: #757575;
+}
+
+.cancel-btn:hover {
+    background-color: #616161;
+}
+
+/* 제출 버튼 · 취소 버튼 · 메시지를 한 줄에 놓는다 */
+.button-group {
+    margin-top: 15px;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
     flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+    /* 화면이 좁으면 줄을 바꾼다 */
+    gap: 10px;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+/* 표 안의 작은 버튼 세 가지 — 공통 부분 */
+.edit-btn,
+.delete-btn,
+.detail-btn {
+    padding: 5px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.8em;
 }
 
-.ticks {
-  position: relative;
-  width: 100%;
+.edit-btn {
+    background-color: #2196F3;
+    color: white;
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
+.edit-btn:hover {
+    background-color: #1976D2;
+}
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}
+
+.detail-btn {
+    background-color: #FF9800;
+    color: white;
+}
+
+.detail-btn:hover {
+    background-color: #F57C00;
+}
+
+/* ---- ECMAScript 버전에서 추가된 스타일 ---- */
+
+/* 목록이 비었을 때 보여 주는 안내 행 */
+.empty-row {
+    text-align: center;
+    color: #888;
+    padding: 24px 10px;
+}
+
+/* 목록을 불러오지 못했을 때 보여 주는 행 */
+.error-row {
+    text-align: center;
+    color: #f44336;
+    padding: 24px 10px;
+}
+
+/* 수정 모드일 때 폼 전체를 살짝 강조한다 */
+.form-container.editing {
+    border-left: 4px solid #4CAF50;
+    /* 왼쪽에 녹색 띠 */
 }
