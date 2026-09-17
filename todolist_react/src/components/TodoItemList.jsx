@@ -2,7 +2,13 @@ import TodoItem from "./TodoItem";
 import { memo } from "react";
 
 const TodoItemList = ({ myTodos, myToggle, myRemove }) => {
-    // 배열의 값 하나하나를 화면 조각으로 바꾼다
+
+    const ids = myTodos.map(todo => todo.id);
+
+    console.log("myTodos 개수:", myTodos.length);
+    console.log("IDs:", ids);
+    console.log("중복 여부:", ids.length !== new Set(ids).size);
+
     const todoList = myTodos.map(
         ({ id, text, checked }) => (
             <TodoItem
@@ -15,13 +21,15 @@ const TodoItemList = ({ myTodos, myToggle, myRemove }) => {
             />
         )
     );
-    
+
     return (
         <div>
             {todoList}
         </div>
     );
 };
+
+
  
 //export default TodoItemList;
 // myTodos 가 바뀔 때만 다시 그린다

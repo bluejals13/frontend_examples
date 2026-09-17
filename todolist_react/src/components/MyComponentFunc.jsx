@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import './MyComponent.css';
 
 const MyComponentFunc = ({ name, age, children }) => {
