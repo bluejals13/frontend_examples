@@ -1,0 +1,10 @@
+# docker-compose.yml
+version: '3.8'
+services:
+  php-web:
+    image: php:8.3-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/var/www/html
+    # PHP 세션 사용을 위해 권한 등 기본 설정 유지
