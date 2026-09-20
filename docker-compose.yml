@@ -1,10 +1,44 @@
-# docker-compose.yml
-version: '3.8'
+
+
 services:
-  php-web:
+  # 1. MariaDB 컨테이너
+  db:
+    image: mariadb:10.11
+    container_name: ex-db
+    environment:
+      MYSQL_ROOT_PASSWORD: lab
+      MYSQL_DATABASE: lab_db
+      MYSQL_USER: lab
+      MYSQL_PASSWORD: lab
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  # 2. Spring Boot 백엔드 컨테이너
+  backend:
+    build: ./ex-backend
+    container_name: ex-backend
+    ports:
+      - "8081:8081"
+    environment:
+      # DB 접속 주소를 localhost가 아닌 컴포즈 서비스명인 'db'로 바인딩
+      SPRING_DATASOURCE_URL: jdbc:mariadb://db:3306/lab_db
+      SPRING_DATASOURCE_USERNAME: lab
+      SPRING_DATASOURCE_PASSWORD: lab
+    depends_on:
+      - db
+
+  # 3. PHP 프론트엔드 웹 서버 컨테이너
+  web:
     image: php:8.3-apache
+    container_name: ex-web-1
     ports:
       - "8080:80"
     volumes:
       - ./html:/var/www/html
-    # PHP 세션 사용을 위해 권한 등 기본 설정 유지
+    depends_on:
+      - backend
+
+volumes:
+  mariadb_data:
