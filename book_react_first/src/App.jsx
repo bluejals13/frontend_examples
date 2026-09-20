@@ -10,7 +10,7 @@ import {
 
 
 import { useEffect, useState } from "react";	// 과제 4번. useEffect 추가
-import "./style.css";
+
 
 import BookTable from "./components/BookTable.jsx";	// 과제 5번. 도서 목록
 
@@ -19,6 +19,9 @@ import { EMPTY_FORM, toRequest, toFormValues } from "./lib/bookData.js";		// 과
 
 import MessageBox from "./components/MessageBox";	// 과제 7번 파일
 
+import { APP_MODE } from "./config.js";		// 과제 11번 모드 가져오기
+
+import "./style.css";					// 과제 + @ 스타일
 
 function App() {
   const [books, setBooks] = useState([]);			// 책
@@ -196,7 +199,9 @@ async function handleDetail(id) {
 
   return (
     <div>
-      <h1>도서 관리 시스템</h1>
+      <h1>도서 관리 시스템
+	      <span className={`app-mode ${APP_MODE.toLowerCase()}`}>{APP_MODE}</span>
+      </h1>
 
     <BookForm
       form={form}
