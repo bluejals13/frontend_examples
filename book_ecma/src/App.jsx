@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  fetchBooks,
-  createBook,
-  updateBook,
-  deleteBook,
-  fetchBook,
-} from "./api/bookApi.js";
+import { fetchBooks, createBook, updateBook, deleteBook, fetchBookById } from "./api/bookApi.js";
+import { EMPTY_FORM, toRequest, toFormValues } from "./lib/bookData.jsx";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -101,71 +96,83 @@ function App() {
     });
   }
 
+// 과제 8번. 폼 초기화
   function resetForm() {
-    setForm(emptyForm);
+    setForm(EMPTY_FORM); // 대문자로 수정
     setEditingId(null);
+    setMessage(null);
   }
 
+  // 과제 8번. 도서 등록/수정
   async function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
+    setMessage(null);
 
     try {
-      setMessage("");
-
-      const data = collectBookData();
+      const requestData = toRequest(form);
 
       if (editingId) {
-        await updateBook(editingId, data);
-        setMessage("도서가 수정되었습니다.");
+        await updateBook(editingId, requestData);
+        setMessage({ type: "success", text: "도서가 성공적으로 수정되었습니다." });
       } else {
-        await createBook(data);
-        setMessage("도서가 등록되었습니다.");
+        await createBook(requestData);
+        setMessage({ type: "success", text: "도서가 성공적으로 등록되었습니다." });
       }
 
       resetForm();
       await loadBooks();
     } catch (error) {
-      setMessage(error.message);
+      setMessage({ type: "error", text: error.message }); // 객체 형태로 수정
+    } finally {
+      setLoading(false);
     }
   }
 
+  // 도서 수정 모드 진입 (Form에 값 채우기)
   async function handleEdit(id) {
     try {
-      const book = await fetchBook(id);
+      const book = await fetchBook(id); // bookApi.js의 함수명과 일치하는지 확인
 
       setEditingId(id);
-      fillForm(book);
+      setForm(toFormValues(book)); // fillForm 대신 변환 함수와 setForm 사용
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
-      setMessage(error.message);
+      setMessage({ type: "error", text: error.message });
     }
   }
 
+  // 과제 9번. 도서 삭제
   async function handleDelete(id) {
-    if (!window.confirm("정말 삭제하시겠습니까?")) {
+    if (!window.confirm("정말 이 도서를 삭제하시겠습니까?")) {
       return;
     }
+    setLoading(true);
+    setMessage(null);
 
     try {
       await deleteBook(id);
-
-      setMessage("도서가 삭제되었습니다.");
-
+      setMessage({ type: "success", text: "도서가 삭제되었습니다." });
+      
+      // 삭제한 도서를 현재 폼에서 수정 중이었다면 폼 초기화
       if (editingId === id) {
         resetForm();
       }
 
-      await loadBooks();
+      await loadBooks(); // 중복 호출 제거
     } catch (error) {
-      setMessage(error.message);
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setLoading(false);
     }
   }
 
+  // 과제 10번. 도서 상세 조회 (Alert)
   async function handleDetail(id) {
+    setLoading(true);
+    setMessage(null);
+
     try {
       const book = await fetchBook(id);
 
@@ -173,11 +180,7 @@ function App() {
         `제목: ${book.title ?? "-"}`,
         `저자: ${book.author ?? "-"}`,
         `ISBN: ${book.isbn ?? "-"}`,
-        `가격: ${
-          book.price == null
-            ? "-"
-            : `₩${book.price.toLocaleString()}`
-        }`,
+        `가격: ${book.price == null ? "-" : `₩${book.price.toLocaleString()}`}`,
         `출판일: ${book.publishDate ?? "-"}`,
         "",
         `출판사 ID: ${book.publisher?.id ?? "-"}`,
@@ -193,7 +196,9 @@ function App() {
 
       window.alert(detail);
     } catch (error) {
-      setMessage(error.message);
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setLoading(false); // 상세 조회 완료 후 로딩 해제 추가
     }
   }
 
